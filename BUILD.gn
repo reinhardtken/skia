@@ -2838,6 +2838,21 @@ if (skia_enable_tools) {
     }
   }
 
+  if (skia_use_gl && !skia_use_angle && (is_linux || is_win || is_mac)) {
+    test_app("HelloWorldSoftware") {
+      sources = [ "example/HelloWorldSoftware.cpp" ]
+      libs = []
+
+      deps = [
+        ":flags",
+        ":gpu_tool_utils",
+        ":sk_app",
+        ":skia",
+        ":tool_utils",
+      ]
+    }
+  }
+
   if (skia_qt_path != "" && (is_win || is_linux || is_mac)) {
     action_foreach("generate_mocs") {
       script = "gn/call.py"

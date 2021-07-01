@@ -5,7 +5,7 @@
 * found in the LICENSE file.
 */
 
-#include "example/HelloWorld.h"
+#include "example/HelloWorldSoftware.h"
 
 #include "include/core/SkCanvas.h"
 #include "include/core/SkFont.h"
@@ -16,11 +16,12 @@
 using namespace sk_app;
 
 Application* Application::Create(int argc, char** argv, void* platformData) {
-    return new HelloWorld(argc, argv, platformData);
+    return new HelloWorldSoftware(argc, argv, platformData);
 }
 
-HelloWorld::HelloWorld(int argc, char** argv, void* platformData)
-        : fBackendType(Window::kNativeGL_BackendType)
+HelloWorldSoftware::HelloWorldSoftware(int argc, char** argv, void* platformData)
+        // : fBackendType(Window::kNativeGL_BackendType)
+        : fBackendType(Window::kRaster_BackendType)
         , fRotationAngle(0) {
     SkGraphics::Init();
 
@@ -33,12 +34,12 @@ HelloWorld::HelloWorld(int argc, char** argv, void* platformData)
     fWindow->attach(fBackendType);
 }
 
-HelloWorld::~HelloWorld() {
+HelloWorldSoftware::~HelloWorldSoftware() {
     fWindow->detach();
     delete fWindow;
 }
 
-void HelloWorld::updateTitle() {
+void HelloWorldSoftware::updateTitle() {
     if (!fWindow || fWindow->sampleCount() <= 1) {
         return;
     }
@@ -48,13 +49,13 @@ void HelloWorld::updateTitle() {
     fWindow->setTitle(title.c_str());
 }
 
-void HelloWorld::onBackendCreated() {
+void HelloWorldSoftware::onBackendCreated() {
     this->updateTitle();
     fWindow->show();
     fWindow->inval();
 }
 
-void HelloWorld::onPaint(SkSurface* surface) {
+void HelloWorldSoftware::onPaint(SkSurface* surface) {
     auto canvas = surface->getCanvas();
 
     // Clear background
@@ -63,7 +64,7 @@ void HelloWorld::onPaint(SkSurface* surface) {
     SkPaint paint;
     paint.setColor(SK_ColorRED);
 
-    canvas->drawPoint(3, 3, paint);
+    canvas->drawPoint(3, 5, paint);
 
     // Draw a rectangle with red paint
     SkRect rect = SkRect::MakeXYWH(10, 10, 128, 128);
@@ -93,7 +94,7 @@ void HelloWorld::onPaint(SkSurface* surface) {
     static const char message[] = "Hello World";
 
     // Translate and rotate
-    canvas->translate(300, 300);
+    canvas->translate(300, 400);
     fRotationAngle += 0.2f;
     if (fRotationAngle > 360) {
         fRotationAngle -= 360;
@@ -106,12 +107,12 @@ void HelloWorld::onPaint(SkSurface* surface) {
     canvas->restore();
 }
 
-void HelloWorld::onIdle() {
+void HelloWorldSoftware::onIdle() {
     // Just re-paint continously
     fWindow->inval();
 }
 
-bool HelloWorld::onChar(SkUnichar c, skui::ModifierKey modifiers) {
+bool HelloWorldSoftware::onChar(SkUnichar c, skui::ModifierKey modifiers) {
     if (' ' == c) {
         fBackendType = Window::kRaster_BackendType == fBackendType ? Window::kNativeGL_BackendType
                                                                    : Window::kRaster_BackendType;
