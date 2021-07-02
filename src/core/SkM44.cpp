@@ -87,6 +87,12 @@ SkM44& SkM44::preConcat(const SkMatrix& b) {
     return *this;
 }
 
+/*
+                                | A B C D |  | 1 0 0 dx |       | A B C A*dx+B*dy+C*dz+D |
+Matrix * T(dx, dy) = | E F G H |   | 0 1 0 dy | =   | E F G E*dx+F*dy+G*dz+H |
+                                | I J K L |     | 0 0 1 dz |       | I J K I*dx+J*dy+K*dz+L |
+                                | M N O P | | 0 0 0  1 |       | M N O M*dx+N*dy+O*dz+P |
+*/
 SkM44& SkM44::preTranslate(SkScalar x, SkScalar y, SkScalar z) {
     sk4f c0 = sk4f::Load(fMat +  0);
     sk4f c1 = sk4f::Load(fMat +  4);
