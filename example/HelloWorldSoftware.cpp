@@ -71,6 +71,18 @@ void draw_translate(SkCanvas* canvas) {
     canvas->restore();
 }
 
+void draw_translate2(SkCanvas* canvas) {
+    SkPaint paint;
+    SkRect rect = {0, 0, 25, 25};
+    canvas->save();
+    canvas->translate(50, 50);
+    canvas->save();
+    canvas->translate(50, 50);
+    canvas->drawRect(rect, paint);
+    canvas->restore();
+    canvas->restore();
+}
+
 void draw_save(SkCanvas* canvas) {
     SkPaint paint;
     SkRect rect = { 0, 0, 25, 25 };
@@ -113,8 +125,8 @@ void HelloWorldSoftware::onPaint(SkSurface* surface) {
     // Clear background
     canvas->clear(SK_ColorWHITE);
     
-    draw_translate(canvas);
-    
+    //draw_translate(canvas);
+    draw_translate2(canvas);
     
     
     if (once) {
