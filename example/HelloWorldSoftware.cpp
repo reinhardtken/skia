@@ -13,6 +13,10 @@
 #include "include/core/SkSurface.h"
 #include "include/effects/SkGradientShader.h"
 
+#include "include/effects/SkImageFilters.h"
+
+#include <iostream>
+
 using namespace sk_app;
 
 Application* Application::Create(int argc, char** argv, void* platformData) {
@@ -55,17 +59,70 @@ void HelloWorldSoftware::onBackendCreated() {
     fWindow->inval();
 }
 
+
+
+
+void draw_translate(SkCanvas* canvas) {
+    SkPaint paint;
+    SkRect rect = { 0, 0, 25, 25 };
+    canvas->save();
+    canvas->translate(50, 50);
+    canvas->drawRect(rect, paint);
+    canvas->restore();
+}
+
+void draw_save(SkCanvas* canvas) {
+    SkPaint paint;
+    SkRect rect = { 0, 0, 25, 25 };
+    canvas->drawRect(rect, paint);
+    canvas->save();
+    canvas->translate(50, 50);
+    canvas->drawRect(rect, paint);
+    canvas->restore();
+    paint.setColor(SK_ColorRED);
+    canvas->drawRect(rect, paint);
+}
+
+void draw_saveLayer(SkCanvas* canvas) {
+    SkPaint paint, blur;
+    SkRect rect = { 25, 25, 50, 50};
+    canvas->drawRect(rect, paint);
+    blur.setImageFilter(SkImageFilters::Blur(3, 3, nullptr));
+    canvas->saveLayer(nullptr, &blur);
+    
+    canvas->translate(50, 50);
+    paint.setColor(SK_ColorRED);
+    canvas->drawRect(rect, paint);
+    canvas->restore();
+    SkRect rect2 = { 150, 150, 175, 175};
+    canvas->drawRect(rect2, paint);
+}
+
+static bool once = true;
+
 void HelloWorldSoftware::onPaint(SkSurface* surface) {
-    SkM44 tmp(1, 2, 3, 4,
-                        5, 6, 7, 8,
-                        9, 10, 11, 12,
-                        13, 14, 15, 16);
-    tmp.dump();
-    tmp.preTranslate(2, 3, 4);
-    tmp.dump();
+    // SkM44 tmp(1, 2, 3, 4,
+    //                     5, 6, 7, 8,
+    //                     9, 10, 11, 12,
+    //                     13, 14, 15, 16);
+    // tmp.dump();
+    // tmp.preTranslate(2, 3, 4);
+    // tmp.dump();
 
     auto canvas = surface->getCanvas();
-
+    // Clear background
+    canvas->clear(SK_ColorWHITE);
+    
+    draw_translate(canvas);
+    
+    
+    
+    if (once) {
+        std::cout<<fRotationAngle;
+        once = false;
+    }
+    
+#if 0
     // Clear background
     canvas->clear(SK_ColorWHITE);
 
@@ -113,6 +170,7 @@ void HelloWorldSoftware::onPaint(SkSurface* surface) {
     canvas->drawSimpleText(message, strlen(message), SkTextEncoding::kUTF8, 0, 0, font, paint);
 
     canvas->restore();
+#endif
 }
 
 void HelloWorldSoftware::onIdle() {

@@ -46,6 +46,12 @@ void SkM44::getRowMajor(SkScalar v[]) const {
     transpose_arrays(v, fMat);
 }
 
+/*
+        | A B C D | | a b c d |   | Aa+Be+Ci+Dm Ab+Bf+Cj+Dn Ac+Bg+Ck+Do Ad+Bh+Cl+Dp |
+a * b = | E F G H | | e f g h | = | Ea+Fe+Gi+Hm Eb+Ff+Gj+Hn Ec+Fg+Gk+Ho Ed+Fh+Gl+Hp |
+        | I J K L | | i j k l |   | Ia+Je+Ki+Lm Ib+Jf+Kj+Ln Ic+Jg+Kk+Lo Id+Jh+Kl+Lp |
+        | M N O P | | m n o p |   | Ma+Ne+Oi+Pm Mb+Nf+Oj+Pn Mc+Ng+Ok+Po Md+Nh+Ol+Pp |
+*/
 SkM44& SkM44::setConcat(const SkM44& a, const SkM44& b) {
     sk4f c0 = sk4f::Load(a.fMat +  0);
     sk4f c1 = sk4f::Load(a.fMat +  4);
@@ -88,10 +94,10 @@ SkM44& SkM44::preConcat(const SkMatrix& b) {
 }
 
 /*
-                                | A B C D |  | 1 0 0 dx |       | A B C A*dx+B*dy+C*dz+D |
-Matrix * T(dx, dy) = | E F G H |   | 0 1 0 dy | =   | E F G E*dx+F*dy+G*dz+H |
-                                | I J K L |     | 0 0 1 dz |       | I J K I*dx+J*dy+K*dz+L |
-                                | M N O P | | 0 0 0  1 |       | M N O M*dx+N*dy+O*dz+P |
+                     | A B C D | | 1 0 0 dx |   | A B C A*dx+B*dy+C*dz+D |
+Matrix * T(dxdydz) = | E F G H | | 0 1 0 dy | = | E F G E*dx+F*dy+G*dz+H |
+                     | I J K L | | 0 0 1 dz |   | I J K I*dx+J*dy+K*dz+L |
+                     | M N O P | | 0 0 0  1 |   | M N O M*dx+N*dy+O*dz+P |
 */
 SkM44& SkM44::preTranslate(SkScalar x, SkScalar y, SkScalar z) {
     sk4f c0 = sk4f::Load(fMat +  0);
@@ -104,6 +110,12 @@ SkM44& SkM44::preTranslate(SkScalar x, SkScalar y, SkScalar z) {
     return *this;
 }
 
+/*
+                     | 1 0 0 dx | | J K L M |   | J+dx*V K+dx*W L+dx*X M+dx*Y |
+T(dxdydz) * Matrix = | 0 1 0 dy | | N O P Q | = | N+dy*V O+dy*W P+dy*X Q+dx*Y |
+                     | 0 0 1 dz | | R S T U |   | R+dz*V S+dz*W T+dz*X U+dz*Y |
+                     | 0 0 0  1 | | V W X Y |   |      V      W      X      Y |
+*/
 SkM44& SkM44::postTranslate(SkScalar x, SkScalar y, SkScalar z) {
     sk4f t = { x, y, z, 0 };
     (t * fMat[ 3] + sk4f::Load(fMat +  0)).store(fMat +  0);
