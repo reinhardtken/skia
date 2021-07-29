@@ -83,6 +83,27 @@ void draw_translate2(SkCanvas* canvas) {
     canvas->restore();
 }
 
+void draw_rotate(SkCanvas* canvas) {
+    SkPaint paint;
+    SkRect rect = { 0, 0, 25, 25 };
+    canvas->save();
+    canvas->translate(150, 150);
+    canvas->rotate(45);
+    canvas->drawRect(rect, paint);
+    canvas->restore();
+}
+
+void draw_triangle(SkCanvas* canvas) {
+    SkPaint paint;
+    SkPath path;
+    /*一个三角形*/
+    path.moveTo(300,0); //创建点(300,0)，并记录verb为kMove_Verb
+    path.lineTo(400,100); //创建点(400,100)，并记录verb为kLine_Verb
+    path.lineTo(200,100); //创建点(200,100)，并记录verb为kLine_Verb
+    path.close(); //闭合path，记录verb为kClose_Verb
+    canvas->drawPath(path,paint);
+}
+
 void draw_save(SkCanvas* canvas) {
     SkPaint paint;
     SkRect rect = { 0, 0, 25, 25 };
@@ -126,7 +147,9 @@ void HelloWorldSoftware::onPaint(SkSurface* surface) {
     canvas->clear(SK_ColorWHITE);
     
     //draw_translate(canvas);
-    draw_translate2(canvas);
+//    draw_translate2(canvas);
+//    draw_rotate(canvas);
+    draw_triangle(canvas);
     
     
     if (once) {
