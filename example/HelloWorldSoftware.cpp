@@ -93,6 +93,24 @@ void draw_rotate(SkCanvas* canvas) {
     canvas->restore();
 }
 
+void draw_horizontal_line(SkCanvas* canvas) {
+    SkPaint paint;
+    
+    canvas->drawLine(100, 100, 300, 100,paint);
+}
+
+void draw_vertical_line(SkCanvas* canvas) {
+    SkPaint paint;
+
+    canvas->drawLine(100, 100, 100, 300, paint);
+}
+
+void draw_oblique_line(SkCanvas* canvas) {
+    SkPaint paint;
+
+    canvas->drawLine(100, 100, 300, 300, paint);
+}
+
 void draw_triangle(SkCanvas* canvas) {
     SkPaint paint;
     SkPath path;
@@ -149,8 +167,10 @@ void HelloWorldSoftware::onPaint(SkSurface* surface) {
     //draw_translate(canvas);
 //    draw_translate2(canvas);
 //    draw_rotate(canvas);
-    draw_triangle(canvas);
-    
+    //draw_triangle(canvas);
+    //draw_horizontal_line(canvas);
+    //draw_vertical_line(canvas);
+    draw_oblique_line(canvas);
     
     if (once) {
         std::cout<<fRotationAngle;
