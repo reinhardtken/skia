@@ -111,6 +111,14 @@ void draw_oblique_line(SkCanvas* canvas) {
     canvas->drawLine(100, 100, 300, 300, paint);
 }
 
+
+void draw_width_horizontal_line(SkCanvas* canvas) {
+    SkPaint paint;
+    paint.setStrokeWidth(15);
+    paint.setStrokeCap(SkPaint::kRound_Cap);
+    canvas->drawLine(100, 100, 300, 100, paint);
+}
+
 void draw_triangle(SkCanvas* canvas) {
     SkPaint paint;
     SkPath path;
@@ -120,6 +128,36 @@ void draw_triangle(SkCanvas* canvas) {
     path.lineTo(200,100); //创建点(200,100)，并记录verb为kLine_Verb
     path.close(); //闭合path，记录verb为kClose_Verb
     canvas->drawPath(path,paint);
+}
+
+void draw_triangle2(SkCanvas* canvas) {
+    SkPaint paint;
+    SkPath path;
+    path.moveTo(300, 100);
+    path.lineTo(400, 0);
+    path.lineTo(200, 0);
+    path.close();
+    canvas->drawPath(path, paint);
+}
+
+void draw_triangle3(SkCanvas* canvas) {
+    SkPaint paint;
+    SkPath path;
+    path.moveTo(300, 0);
+    path.lineTo(400, 100);
+    path.lineTo(300, 200);
+    path.close();
+    canvas->drawPath(path, paint);
+}
+
+void draw_triangle4(SkCanvas* canvas) {
+    SkPaint paint;
+    SkPath path;
+    path.moveTo(300, 0);
+    path.lineTo(200, 100);
+    path.lineTo(300, 200);
+    path.close();
+    canvas->drawPath(path, paint);
 }
 
 void draw_save(SkCanvas* canvas) {
@@ -168,9 +206,13 @@ void HelloWorldSoftware::onPaint(SkSurface* surface) {
 //    draw_translate2(canvas);
 //    draw_rotate(canvas);
     //draw_triangle(canvas);
+    //draw_triangle2(canvas);
+    //draw_triangle3(canvas);
+    draw_triangle4(canvas);
     //draw_horizontal_line(canvas);
     //draw_vertical_line(canvas);
-    draw_oblique_line(canvas);
+    //draw_oblique_line(canvas);
+    //draw_width_horizontal_line(canvas);
     
     if (once) {
         std::cout<<fRotationAngle;

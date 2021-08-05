@@ -179,10 +179,12 @@ SkEdgeBuilder::Combine SkBasicEdgeBuilder::addPolyLine(const SkPoint pts[],
     auto edgePtr = (SkEdge**)arg_edgePtr;
 
     if (edge->setLine(pts[0], pts[1], fClipShift)) {
+        edge->dump();
         return is_vertical(edge) && edgePtr > (SkEdge**)fEdgeList
             ? this->combineVertical(edge, edgePtr[-1])
             : kNo_Combine;
     }
+    edge->dump();
     return SkEdgeBuilder::kPartial_Combine;  // A convenient lie.  Same do-nothing behavior.
 }
 SkEdgeBuilder::Combine SkAnalyticEdgeBuilder::addPolyLine(const SkPoint pts[],

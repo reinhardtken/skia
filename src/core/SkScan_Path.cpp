@@ -379,12 +379,20 @@ static bool operator<(const SkEdge& a, const SkEdge& b) {
 }
 
 static SkEdge* sort_edges(SkEdge* list[], int count, SkEdge** last) {
+    for (int i = 0; i < count; i++) {
+        list[i]->dump();
+    }
+
     SkTQSort(list, list + count);
 
     // now make the edges linked in sorted order
     for (int i = 1; i < count; i++) {
         list[i - 1]->fNext = list[i];
         list[i]->fPrev = list[i - 1];
+    }
+
+    for (int i = 0; i < count; i++) {
+        list[i]->dump();
     }
 
     *last = list[count - 1];
