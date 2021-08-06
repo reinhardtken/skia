@@ -1,9 +1,9 @@
 /*
-* Copyright 2017 Google Inc.
-*
-* Use of this source code is governed by a BSD-style license that can be
-* found in the LICENSE file.
-*/
+ * Copyright 2017 Google Inc.
+ *
+ * Use of this source code is governed by a BSD-style license that can be
+ * found in the LICENSE file.
+ */
 
 #include "example/HelloWorldSoftware.h"
 
@@ -25,8 +25,7 @@ Application* Application::Create(int argc, char** argv, void* platformData) {
 
 HelloWorldSoftware::HelloWorldSoftware(int argc, char** argv, void* platformData)
         // : fBackendType(Window::kNativeGL_BackendType)
-        : fBackendType(Window::kRaster_BackendType)
-        , fRotationAngle(0) {
+        : fBackendType(Window::kRaster_BackendType), fRotationAngle(0) {
     SkGraphics::Init();
 
     fWindow = Window::CreateNativeWindow(platformData);
@@ -59,12 +58,9 @@ void HelloWorldSoftware::onBackendCreated() {
     fWindow->inval();
 }
 
-
-
-
 void draw_translate(SkCanvas* canvas) {
     SkPaint paint;
-    SkRect rect = { 0, 0, 25, 25 };
+    SkRect rect = {0, 0, 25, 25};
     canvas->save();
     canvas->translate(50, 50);
     canvas->drawRect(rect, paint);
@@ -85,7 +81,7 @@ void draw_translate2(SkCanvas* canvas) {
 
 void draw_rotate(SkCanvas* canvas) {
     SkPaint paint;
-    SkRect rect = { 0, 0, 25, 25 };
+    SkRect rect = {0, 0, 25, 25};
     canvas->save();
     canvas->translate(150, 150);
     canvas->rotate(45);
@@ -95,8 +91,8 @@ void draw_rotate(SkCanvas* canvas) {
 
 void draw_horizontal_line(SkCanvas* canvas) {
     SkPaint paint;
-    
-    canvas->drawLine(100, 100, 300, 100,paint);
+
+    canvas->drawLine(100, 100, 300, 100, paint);
 }
 
 void draw_vertical_line(SkCanvas* canvas) {
@@ -111,7 +107,6 @@ void draw_oblique_line(SkCanvas* canvas) {
     canvas->drawLine(100, 100, 300, 300, paint);
 }
 
-
 void draw_width_horizontal_line(SkCanvas* canvas) {
     SkPaint paint;
     paint.setStrokeWidth(15);
@@ -123,11 +118,11 @@ void draw_triangle(SkCanvas* canvas) {
     SkPaint paint;
     SkPath path;
     /*一个三角形*/
-    path.moveTo(300,0); //创建点(300,0)，并记录verb为kMove_Verb
-    path.lineTo(400,100); //创建点(400,100)，并记录verb为kLine_Verb
-    path.lineTo(200,100); //创建点(200,100)，并记录verb为kLine_Verb
-    path.close(); //闭合path，记录verb为kClose_Verb
-    canvas->drawPath(path,paint);
+    path.moveTo(300, 0);    //创建点(300,0)，并记录verb为kMove_Verb
+    path.lineTo(400, 100);  //创建点(400,100)，并记录verb为kLine_Verb
+    path.lineTo(200, 100);  //创建点(200,100)，并记录verb为kLine_Verb
+    path.close();           //闭合path，记录verb为kClose_Verb
+    canvas->drawPath(path, paint);
 }
 
 void draw_triangle2(SkCanvas* canvas) {
@@ -165,26 +160,53 @@ void draw_bezier(SkCanvas* canvas) {
 
     SkPaint paint;
     paint.setStyle(SkPaint::kStroke_Style);
-    //paint.setStrokeWidth(8);
+    // paint.setStrokeWidth(8);
     paint.setColor(0xff4285F4);
-//    paint.setAntiAlias(true);
-//    paint.setStrokeCap(SkPaint::kRound_Cap);
+    //    paint.setAntiAlias(true);
+    //    paint.setStrokeCap(SkPaint::kRound_Cap);
+
+    SkPaint paint2;
+    paint2.setColor(SK_ColorRED);
+    canvas->drawLine(SkPoint::Make(100, 100), SkPoint::Make(400, 100), paint2);
+    canvas->drawLine(SkPoint::Make(400, 100), SkPoint::Make(400, 400), paint2);
 
     SkPath path;
-    path.moveTo(10, 10);
-    path.quadTo(256, 64, 128, 128);
-    //path.quadTo(10, 192, 250, 250);
+    path.moveTo(100, 100);
+    path.quadTo(400, 100, 400, 400);
+    // path.quadTo(10, 192, 250, 250);
     canvas->drawPath(path, paint);
 
-//    SkPaint paint2;
-//    paint2.setColor(SK_ColorRED);
-//    canvas->drawLine(SkPoint::Make(10, 10), SkPoint::Make(256, 64), paint2);
-//    canvas->drawLine(SkPoint::Make(256, 64), SkPoint::Make(128, 128), paint2);
+    SkPoint tmp[] = {
+            SkPoint::Make(100.000000, 100.000000),
+            SkPoint::Make(136.328125, 101.171875),
+            SkPoint::Make(170.312500, 104.687500),
+            SkPoint::Make(201.953125, 110.546875),
+            SkPoint::Make(231.250000, 118.750000),
+            SkPoint::Make(258.203125, 129.296875),
+            SkPoint::Make(282.812500, 142.187500),
+            SkPoint::Make(305.078125, 157.421875),
+            SkPoint::Make(325.000000, 175.000000),
+            SkPoint::Make(342.578125, 194.921875),
+            SkPoint::Make(357.812500, 217.187500),
+            SkPoint::Make(370.703125, 241.796875),
+            SkPoint::Make(381.250000, 268.750000),
+            SkPoint::Make(389.453125, 298.046875),
+            SkPoint::Make(395.312500, 329.687500),
+            SkPoint::Make(398.828125, 363.671875),
+            SkPoint::Make(400.000000, 400.000000),
+    };
+
+    SkPaint paint3;
+    paint3.setStrokeWidth(3);
+    for (int i = 0; i < (sizeof(tmp) / sizeof(tmp[0])); i++) {
+        canvas->drawPoint(tmp[i], paint3);
+    }
+
 }
 
 void draw_save(SkCanvas* canvas) {
     SkPaint paint;
-    SkRect rect = { 0, 0, 25, 25 };
+    SkRect rect = {0, 0, 25, 25};
     canvas->drawRect(rect, paint);
     canvas->save();
     canvas->translate(50, 50);
@@ -196,16 +218,16 @@ void draw_save(SkCanvas* canvas) {
 
 void draw_saveLayer(SkCanvas* canvas) {
     SkPaint paint, blur;
-    SkRect rect = { 25, 25, 50, 50};
+    SkRect rect = {25, 25, 50, 50};
     canvas->drawRect(rect, paint);
     blur.setImageFilter(SkImageFilters::Blur(3, 3, nullptr));
     canvas->saveLayer(nullptr, &blur);
-    
+
     canvas->translate(50, 50);
     paint.setColor(SK_ColorRED);
     canvas->drawRect(rect, paint);
     canvas->restore();
-    SkRect rect2 = { 150, 150, 175, 175};
+    SkRect rect2 = {150, 150, 175, 175};
     canvas->drawRect(rect2, paint);
 }
 
@@ -223,25 +245,25 @@ void HelloWorldSoftware::onPaint(SkSurface* surface) {
     auto canvas = surface->getCanvas();
     // Clear background
     canvas->clear(SK_ColorWHITE);
-    
-    //draw_translate(canvas);
-//    draw_translate2(canvas);
-//    draw_rotate(canvas);
-    //draw_triangle(canvas);
-    //draw_triangle2(canvas);
-    //draw_triangle3(canvas);
-//    draw_triangle4(canvas);
-    //draw_horizontal_line(canvas);
-    //draw_vertical_line(canvas);
-    //draw_oblique_line(canvas);
-    //draw_width_horizontal_line(canvas);
+
+    // draw_translate(canvas);
+    //    draw_translate2(canvas);
+    //    draw_rotate(canvas);
+    // draw_triangle(canvas);
+    // draw_triangle2(canvas);
+    // draw_triangle3(canvas);
+    //    draw_triangle4(canvas);
+    // draw_horizontal_line(canvas);
+    // draw_vertical_line(canvas);
+    // draw_oblique_line(canvas);
+    // draw_width_horizontal_line(canvas);
     draw_bezier(canvas);
-    
+
     if (once) {
-        std::cout<<fRotationAngle;
+        std::cout << fRotationAngle;
         once = false;
     }
-    
+
 #if 0
     // Clear background
     canvas->clear(SK_ColorWHITE);
