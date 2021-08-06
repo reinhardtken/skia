@@ -225,6 +225,18 @@ static void walk_simple_edges(SkEdge* prevHead, SkBlitter* blitter, int start_y,
     SkEdge* leftE = prevHead->fNext;
     SkEdge* riteE = leftE->fNext;
     SkEdge* currE = riteE->fNext;
+    
+    if (leftE) {
+        leftE->dump();
+    }
+    
+    if (riteE) {
+        riteE->dump();
+    }
+    
+    if (currE) {
+        currE->dump();
+    }
 
     // our edge choppers for curves can result in the initial edges
     // not lining up, so we take the max.

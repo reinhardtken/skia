@@ -160,6 +160,28 @@ void draw_triangle4(SkCanvas* canvas) {
     canvas->drawPath(path, paint);
 }
 
+void draw_bezier(SkCanvas* canvas) {
+    canvas->drawColor(SK_ColorWHITE);
+
+    SkPaint paint;
+    paint.setStyle(SkPaint::kStroke_Style);
+    //paint.setStrokeWidth(8);
+    paint.setColor(0xff4285F4);
+//    paint.setAntiAlias(true);
+//    paint.setStrokeCap(SkPaint::kRound_Cap);
+
+    SkPath path;
+    path.moveTo(10, 10);
+    path.quadTo(256, 64, 128, 128);
+    //path.quadTo(10, 192, 250, 250);
+    canvas->drawPath(path, paint);
+
+//    SkPaint paint2;
+//    paint2.setColor(SK_ColorRED);
+//    canvas->drawLine(SkPoint::Make(10, 10), SkPoint::Make(256, 64), paint2);
+//    canvas->drawLine(SkPoint::Make(256, 64), SkPoint::Make(128, 128), paint2);
+}
+
 void draw_save(SkCanvas* canvas) {
     SkPaint paint;
     SkRect rect = { 0, 0, 25, 25 };
@@ -208,11 +230,12 @@ void HelloWorldSoftware::onPaint(SkSurface* surface) {
     //draw_triangle(canvas);
     //draw_triangle2(canvas);
     //draw_triangle3(canvas);
-    draw_triangle4(canvas);
+//    draw_triangle4(canvas);
     //draw_horizontal_line(canvas);
     //draw_vertical_line(canvas);
     //draw_oblique_line(canvas);
     //draw_width_horizontal_line(canvas);
+    draw_bezier(canvas);
     
     if (once) {
         std::cout<<fRotationAngle;
