@@ -110,7 +110,7 @@ void draw_oblique_line(SkCanvas* canvas) {
 void draw_width_horizontal_line(SkCanvas* canvas) {
     SkPaint paint;
     paint.setStrokeWidth(15);
-    paint.setStrokeCap(SkPaint::kRound_Cap);
+    paint.setStrokeCap(SkPaint::kButt_Cap);
     canvas->drawLine(100, 100, 300, 100, paint);
 }
 
@@ -204,6 +204,23 @@ void draw_bezier(SkCanvas* canvas) {
 
 }
 
+void draw_bezier2(SkCanvas* canvas) {
+    SkPaint paint;
+    paint.setStyle(SkPaint::kStroke_Style);
+    paint.setColor(0xff4285F4);
+
+    SkPath path;
+    path.moveTo(400, 125);
+    path.conicTo(SkPoint::Make(400, 250), SkPoint::Make(200, 250), SK_ScalarRoot2Over2);
+    canvas->drawPath(path, paint);
+}
+
+void draw_oval(SkCanvas* canvas) { 
+  SkPaint paint;
+    SkRect rect = {0, 0, 400, 250};
+  canvas->drawOval(rect, paint);
+}
+
 void draw_save(SkCanvas* canvas) {
     SkPaint paint;
     SkRect rect = {0, 0, 25, 25};
@@ -253,11 +270,13 @@ void HelloWorldSoftware::onPaint(SkSurface* surface) {
     // draw_triangle2(canvas);
     // draw_triangle3(canvas);
     //    draw_triangle4(canvas);
-    // draw_horizontal_line(canvas);
+    //draw_horizontal_line(canvas);
     // draw_vertical_line(canvas);
     // draw_oblique_line(canvas);
-    // draw_width_horizontal_line(canvas);
-    draw_bezier(canvas);
+    //draw_width_horizontal_line(canvas);
+    //draw_bezier(canvas);
+    //draw_oval(canvas);
+    draw_bezier2(canvas);
 
     if (once) {
         std::cout << fRotationAngle;
