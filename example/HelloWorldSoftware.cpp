@@ -213,6 +213,19 @@ void draw_bezier2(SkCanvas* canvas) {
     path.moveTo(400, 125);
     path.conicTo(SkPoint::Make(400, 250), SkPoint::Make(200, 250), SK_ScalarRoot2Over2);
     canvas->drawPath(path, paint);
+    
+    SkPoint quads[17];
+    int size = SkPath::ConvertConicToQuads(SkPoint::Make(400, 125), SkPoint::Make(400, 250), SkPoint::Make(200, 250), SK_ScalarRoot2Over2, quads, 3);
+    
+    //SkAutoConicToQuads quadder;
+    
+    
+    SkPaint paint2;
+    paint2.setStrokeWidth(3);
+    for(int i=0; i < 17; i++) {
+        canvas->drawPoint(quads[i], paint2);
+    }
+    
 }
 
 void draw_oval(SkCanvas* canvas) { 
@@ -248,6 +261,25 @@ void draw_saveLayer(SkCanvas* canvas) {
     canvas->drawRect(rect2, paint);
 }
 
+void draw_image(SkCanvas* canvas) {
+    sk_sp<SkImage> image;
+    //mac
+    //std::string path = "/Users/bytedance/workspace/code/self/skia/resources/images/example_3.png";
+    //windows
+    std::string path = "D:/workspace/code/self/skia/resources/images/example_3.png";
+    image = SkImage::MakeFromEncoded(SkData::MakeFromFileName(path.c_str()));
+    SkImage* imagePtr = image.get();
+    canvas->drawImage(imagePtr, 100, 100);
+}
+
+void draw_text(SkCanvas* canvas) {
+    SkPaint paint;
+    SkFont font(nullptr, 80);
+    SkRect rect[2] = {{10, 20, 90, 110}, {40, 130, 140, 180}};
+    paint.setColor(SK_ColorBLACK);
+    canvas->drawString("你好Here", rect[0].fLeft + 10, rect[0].fBottom - 10, font, paint);
+}
+
 static bool once = true;
 
 void HelloWorldSoftware::onPaint(SkSurface* surface) {
@@ -276,14 +308,17 @@ void HelloWorldSoftware::onPaint(SkSurface* surface) {
     //draw_width_horizontal_line(canvas);
     //draw_bezier(canvas);
     //draw_oval(canvas);
-    draw_bezier2(canvas);
+    //    draw_bezier2(canvas);
+    draw_image(canvas);
+    //draw_text(canvas);
 
+#if 0
     if (once) {
         std::cout << fRotationAngle;
         once = false;
     }
 
-#if 0
+
     // Clear background
     canvas->clear(SK_ColorWHITE);
 
