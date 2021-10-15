@@ -321,6 +321,7 @@ bool GrDrawingManager::executeRenderTasks(GrOpFlushState* flushState) {
 
     // Execute the normal op lists.
     for (const auto& renderTask : fDAG) {
+        renderTask->dump(SkString("renderTask"), SkString("  "), true, true);
         SkASSERT(renderTask);
         if (!renderTask->isInstantiated()) {
             continue;

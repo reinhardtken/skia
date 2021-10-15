@@ -67,6 +67,16 @@ void draw_translate(SkCanvas* canvas) {
     canvas->restore();
 }
 
+void draw_translateXYC(SkCanvas* canvas, int x, int y, SkColor color) {
+    SkPaint paint;
+    paint.setColor(color);
+    SkRect rect = {0, 0, 25, 25};
+    canvas->save();
+    canvas->translate(x, y);
+    canvas->drawRect(rect, paint);
+    canvas->restore();
+}
+
 void draw_translate2(SkCanvas* canvas) {
     SkPaint paint;
     SkRect rect = {0, 0, 25, 25};
@@ -287,7 +297,7 @@ void HelloWorld::onPaint(SkSurface* surface) {
     canvas->clear(SK_ColorWHITE);
 
 
-    draw_translate(canvas);
+    //draw_translate(canvas);
     //    draw_translate2(canvas);
     //    draw_rotate(canvas);
     // draw_triangle(canvas);
@@ -303,6 +313,12 @@ void HelloWorld::onPaint(SkSurface* surface) {
     //    draw_bezier2(canvas);
    // draw_image(canvas);
 //   draw_text(canvas);
+    draw_translateXYC(canvas, 50, 50, SK_ColorRED);
+    draw_translateXYC(canvas, 150, 150, SK_ColorGREEN);
+    //draw_image(canvas);
+    //draw_translateXYC(canvas, 150, 150, SK_ColorYELLOW);
+    //draw_triangle(canvas);
+    
 
 #if 0
     SkPaint paint;
